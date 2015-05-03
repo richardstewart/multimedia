@@ -131,8 +131,8 @@ void recv_packet(int seqno, int len, char *data, FILE *ofile, int strategy) {
     case INTERPOLATE:
       {
 	/* We're going to interpolate a whole new packet (or several packets) in the frequency domain. */
-	if (seqno < (prev_seqno + 4)) {
-    	int *prev_coeff = dct(prev_packet_samples, num_samples);
+	if (seqno < (prev_seqno + 5)) {
+    	        int *prev_coeff = dct(prev_packet_samples, num_samples);
 		int *next_coeff = dct(samples, num_samples);
 	
 		missing_seqno = prev_seqno + 1;

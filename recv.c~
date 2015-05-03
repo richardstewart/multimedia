@@ -90,7 +90,7 @@ void recv_packet(int seqno, int len, char *data, FILE *ofile, int strategy) {
 	  /* fill with last half of prev packet, first half of current packet */
 
 	  /* uncomment the next line to enable smoothing*/
-//#define SMOOTH
+#define SMOOTH
 #ifdef SMOOTH
 	  
           int16_t prev = ((prev_packet_samples[num_samples-1] * 0.66) + (samples[0] * 0.33));
@@ -131,7 +131,7 @@ void recv_packet(int seqno, int len, char *data, FILE *ofile, int strategy) {
     case INTERPOLATE:
       {
 	/* We're going to interpolate a whole new packet (or several packets) in the frequency domain. */
-	if (seqno < (prev_seqno + 4)) {
+	if (seqno < (prev_seqno + 5)) {
     	int *prev_coeff = dct(prev_packet_samples, num_samples);
 		int *next_coeff = dct(samples, num_samples);
 	
