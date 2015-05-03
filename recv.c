@@ -93,15 +93,17 @@ void recv_packet(int seqno, int len, char *data, FILE *ofile, int strategy) {
 #define SMOOTH
 #ifdef SMOOTH
 	  
-      int16_t avg1 = ((prev_packet_samples[num_samples-1] * 0.66) + (samples[0] * 0.33));
-      int16_t avg2 = ((prev_packet_samples[num_samples-1] * 0.33) + (samples[0] * 0.66));
-	  int16_t avg0 = ((prev_packet_samples[num_samples-2] * 0.5) + (avg1 * 0.5));
-      int16_t avg3 = ((avg2 * 0.5) + (samples[1] * 0.5));
+          int16_t prev = ((prev_packet_samples[num_samples-1] * 0.66) + (samples[0] * 0.33));
+          int16_t prev2 = ((prev_packet_samples[num_samples-2] * 0.5) + (prev * 0.5));
+
+          int16_t next = ((prev_packet_samples[num_samples-1] * 0.33) + (samples[0] * 0.66));      
+          int16_t next2 = ((next * 0.5) + (samples[1] * 0.5));
+
 	  fwrite(prev_packet_samples+num_samples/2, 2, (num_samples/2) - 2, ofile);
-	  fwrite(&avg0, 2, 1, ofile);
-	  fwrite(&avg1, 2, 1, ofile);
-	  fwrite(&avg2, 2, 1, ofile);
-	  fwrite(&avg3, 2, 1, ofile);
+	  fwrite(&prev2, 2, 1, ofile);
+	  fwrite(&prev, 2, 1, ofile);
+	  fwrite(&next, 2, 1, ofile);
+	  fwrite(&next2, 2, 1, ofile);
 	  fwrite(samples + 2, 2, (num_samples/2) - 2, ofile);
 	   
 	  
